@@ -328,6 +328,10 @@ header {
     text-align: center;
 }
 
+.shopping-cart table thead td {
+    font-weight: 900;
+}
+
 .shopping-cart table tr {
     border-bottom: 1.5px solid gray;
 }

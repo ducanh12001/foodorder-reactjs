@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Header from './Header';
+import { showToast, numInCart, totalPrice } from './ProductFunction';
 
 const Product = () => {
 
@@ -39,12 +40,12 @@ const Product = () => {
     return (
       <div className="card" key={dish.id}>
         <div style={{ flex: 1 }}>
-          <Link className="go-to-detail" to={{pathname: `/productDetail/dishId=${dish.id}`}}>
+          <Link className="go-to-detail" to={{pathname: `/productDetail/${dish.id}`}}>
               <img className="dish-image" src={dish.imageS} alt={dish.name} />
           </Link>
         </div>
         <div style={{ flex: 2 }}>
-          <Link className="go-to-detail" to={{pathname: `/productDetail/dishId=${dish.id}`}}>
+          <Link className="go-to-detail" to={{pathname: `/productDetail/${dish.id}`}}>
             <div className="dish-name">{dish.name}</div>
           </Link>
         </div>
@@ -82,64 +83,6 @@ const Product = () => {
 
   function numPages() {
     return Math.ceil(DishList.length / itemPerPage);
-  }
-
-  function showToast() {
-    var x = document.getElementById("snackbar");
-    x.className = "show";
-    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-  }
-
-  function numInCart(dish) {
-    let numCart = localStorage.getItem('numInCart');
-    if (numCart) {
-      numCart = parseFloat(numCart);
-      localStorage.setItem('numInCart', numCart + 1);
-    } else {
-      localStorage.setItem('numInCart', 1)
-    }
-    setInCart(dish)
-  }
-
-  function setInCart(dish) {
-    let carts = localStorage.getItem('dishInCart');
-    carts = JSON.parse(carts);
-    if (carts !== null) {
-      if (carts[dish.id] === undefined) {
-        carts = {
-          ...carts,
-          [dish.id]: {
-            id: dish.id,
-            name: dish.name,
-            image: dish.imageS,
-            price: dish.price,
-            quantity: 0
-          }
-        }
-      }
-      carts[dish.id].quantity += 1;
-    } else {
-      carts = {
-        [dish.id]: {
-          id: dish.id,
-          name: dish.name,
-          image: dish.imageS,
-          price: dish.price,
-          quantity: 1
-        }
-      };
-    }
-    localStorage.setItem('dishInCart', JSON.stringify(carts));
-  }
-
-  function totalPrice(dish) {
-    let priceCart = localStorage.getItem('totalPrice');
-    if (priceCart) {
-      priceCart = parseFloat(priceCart);
-      localStorage.setItem('totalPrice', priceCart + dish.price);
-    } else {
-      localStorage.setItem('totalPrice', dish.price);
-    }
   }
 
   function renderNumCart() {
